@@ -59,7 +59,8 @@ def delete(request, pk):
     return Response('Token deleted')
 
 def timeout():
-    tokens = sparkToken.objects.filter(valid_till__lte=timezone.now()).update(locked=True)
+    key_expires = timezone.now() + timedelta(seconds=60)
+    tokens = sparkToken.objects.filter(valid_till__lte=key_expires).update(locked=False)
 
     
 
