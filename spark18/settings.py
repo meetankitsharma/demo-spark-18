@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'tocken',
 ]
 
 MIDDLEWARE = [
@@ -76,8 +77,12 @@ WSGI_APPLICATION = 'spark18.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'USER': 'iqgokepmycmlhb',
+        'NAME': 'd89stv1h1ppr08',
+        'HOST': 'ec2-54-236-122-55.compute-1.amazonaws.com',
+        'PORT': 5432,
+        'Password': 'eab08c0e37a5091d4f38e7f0c527b6e3ff29cf0e11d49b800f7226679bfa2453',
     }
 }
 
