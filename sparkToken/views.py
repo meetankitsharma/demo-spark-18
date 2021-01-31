@@ -67,7 +67,7 @@ def timeout():
 @api_view(['GET'])
 def extend(request, pk):
     tokens = sparkToken.objects.get(id=pk)
-    if tokens.locked == True and tokens.valid_till < timezone.now():
+    if tokens.locked == True and tokens.valid_till > timezone.now():
         tokens.valid_till = timezone.now() + timedelta(days=2)
         tokens.locked = True
     else:
@@ -82,7 +82,7 @@ def generateNewToken():
 
 @api_view(['GET'])
 def assign(request):
-    tokens = sparkToken.objects.filter(locked=False,valid_till__lte=timezone.now()).first()
+    tokens = sparkToken.objects.filter(locked=False).first()
     if tokens is not None:
         tokens.valid_till = timezone.now() + timedelta(minutes=60)
         tokens.locked = True
