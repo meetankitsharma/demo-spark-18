@@ -61,7 +61,7 @@ def delete(request, pk):
 def extend(request, pk):
     tokens = sparkToken.objects.get(id=pk)
     if tokens.locked == True and tokens.valid_till < datetime.now():
-        tokens.valid_till = timezone.now() + datetime.timedelta(days=2)
+        tokens.valid_till = datetime.now() + timedelta(days=2)
         tokens.locked = True
     else:
         tokens.locked = False    
@@ -77,7 +77,7 @@ def generateNewToken():
 def assign(request):
     tokens = sparkToken.objects.filter(locked=False,valid_till__lte=datetime.now()).first()
     if tokens is not None:
-        tokens.valid_till = timezone.now() + datetime.timedelta(seconds=60)
+        tokens.valid_till = datetime.now() + timedelta(seconds=60)
         tokens.locked = True
         #token.save()
         serializer = sparkTokenSerializer(instance= tokens,data=request.data)
