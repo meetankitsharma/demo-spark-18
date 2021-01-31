@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializer import sparkTokenSerializer
 from .models import sparkToken
+from django.utils import timezone
 # Create your views here.
 
 @api_view(['GET'])
@@ -22,6 +23,13 @@ def apiOverview(request):
 def tokenList(request):
     tokens = sparkToken.objects.all()
     serializer = sparkTokenSerializer(tokens,many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def generate(request):
+    token = sparkToken(token="1234",valid_till=timezone.now,locked=False)
+    token.save()
+    serializer = sparkTokenSerializer(token,many=False)
     return Response(serializer.data)
 
 @api_view(['POST'])
