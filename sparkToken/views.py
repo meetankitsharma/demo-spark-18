@@ -27,7 +27,8 @@ def tokenList(request):
 
 @api_view(['GET'])
 def generate(request):
-    token = sparkToken(token='asdujk12332js81',valid_till=timezone.now(),locked=False)
+    key_expires = timezone.now() + datetime.timedelta(seconds=60)
+    token = sparkToken(token='asdujk12332js81',valid_till=key_expires,locked=False)
     token.save()
     serializer = sparkTokenSerializer(token,many=False)
     return Response(serializer.data)
@@ -37,4 +38,24 @@ def tokenAdd(request):
     serializer = sparkTokenSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def details(request, pk):
+    tokens = sparkToken.objects.get(id=pk)
+    serializer = sparkTokenSerializer(tokens,many=False)
+    return Response(serializer.data)
+
+
+@api_view(['DELETE'])
+def delete(request, pk):
+    tokens = sparkToken.objects.get(id=pk)
+    tokens.delete()
+    return Response('Token deleted')
+
+@api_view(['POST'])
+def extend(request, pk):
+    tokens = sparkToken.objects.get(id=pk)
+    tokens.valid_till = timezone.now() + datetime.timedelta(days=2)
+    serializer = sparkTokenSerializer(instance= tokens,data=request.data)
     return Response(serializer.data)

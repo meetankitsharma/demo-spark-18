@@ -19,6 +19,9 @@ from sparkToken.views import apiOverview
 from sparkToken.views import tokenList
 from sparkToken.views import tokenAdd
 from sparkToken.views import generate
+from sparkToken.views import extend
+from sparkToken.views import delete
+from sparkToken.views import details
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,5 +29,8 @@ urlpatterns = [
     path('tokenList/',tokenList, name='tokenList'),
     path('add/',tokenAdd, name='tokenAdd'),
     path('generate/',generate, name='generate'),
+    path('extend/',extend, name='extend'),
+    path('delete/<str:pk>/',delete, name='delete'),
+    path('details/<str:pk>/',details, name='details'),
  #   path('sparkToken/', include('sparkToken.urls')),
 ]
