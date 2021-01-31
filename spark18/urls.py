@@ -15,10 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from spark18 import views
+from sparkToken.views import apiOverview
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',views.apiOverview, name='apiOverview')
-    path('sparkToken/', include('sparkToken.urls'))
+    path('',apiOverview, name='apiOverview'),
+ #   path('sparkToken/', include('sparkToken.urls')),
 ]
