@@ -65,8 +65,8 @@ def extend(request, pk):
         tokens.locked = True
     else:
         tokens.locked = False    
-    #tokens.save()
-    serializer = sparkTokenSerializer(instance= tokens,data=request.data)
+    tokens.save()
+    serializer = sparkTokenSerializer(instance= tokens,many=False)
     return Response(serializer.data)
 
 def generateNewToken():
