@@ -6,7 +6,7 @@ from .serializer import sparkTokenSerializer
 from .models import sparkToken
 from django.utils import timezone
 from uuid import uuid4
-from datetime import datetime
+from datetime import datetime, timedelta
 # Create your views here.
 
 @api_view(['GET'])
@@ -29,7 +29,7 @@ def tokenList(request):
 
 @api_view(['GET'])
 def generate(request):
-    key_expires = timezone.now() + datetime.timedelta(seconds=60)
+    key_expires = datetime.now() + timedelta(seconds=60)
     token = sparkToken(token=generateNewToken,valid_till=key_expires,locked=False)
     token.save()
     serializer = sparkTokenSerializer(token,many=False)
