@@ -31,7 +31,7 @@ def tokenList(request):
 
 @api_view(['GET'])
 def generate(request):
-    key_expires = datetime.now() + timedelta(seconds=60)
+    key_expires = timezone.now() + timedelta(seconds=60)
     token = sparkToken(token=generateNewToken(),valid_till=key_expires,locked=False)
     token.save()
     serializer = sparkTokenSerializer(token,many=False)
@@ -60,8 +60,8 @@ def delete(request, pk):
 @api_view(['GET'])
 def extend(request, pk):
     tokens = sparkToken.objects.get(id=pk)
-    if tokens.locked == True and tokens.valid_till < datetime.now():
-        tokens.valid_till = datetime.now() + timedelta(days=2)
+    if tokens.locked == True and tokens.valid_till < timezone.now():
+        tokens.valid_till = timezone.now() + timedelta(days=2)
         tokens.locked = True
     else:
         tokens.locked = False    
@@ -75,9 +75,9 @@ def generateNewToken():
 
 @api_view(['GET'])
 def assign(request):
-    tokens = sparkToken.objects.filter(locked=False,valid_till__lte=datetime.now()).first()
+    tokens = sparkToken.objects.filter(locked=False,valid_till__lte=timezone.now()).first()
     if tokens is not None:
-        tokens.valid_till = datetime.now() + timedelta(seconds=60)
+        tokens.valid_till = timezone.now() + timedelta(seconds=60)
         tokens.locked = True
         tokens.save()
         serializer = sparkTokenSerializer(instance= tokens,many=False)
