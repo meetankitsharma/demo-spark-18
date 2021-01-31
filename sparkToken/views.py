@@ -25,6 +25,7 @@ def apiOverview(request):
 
 @api_view(['GET'])
 def tokenList(request):
+    timeout()
     tokens = sparkToken.objects.all()
     serializer = sparkTokenSerializer(tokens,many=True)
     return Response(serializer.data)
@@ -56,6 +57,11 @@ def delete(request, pk):
     tokens = sparkToken.objects.get(id=pk)
     tokens.delete()
     return Response('Token deleted')
+
+def timeout():
+    tokens = sparkToken.objects.filter(valid_till__lte=timezone.now()).update(locked=True)
+
+    
 
 @api_view(['GET'])
 def extend(request, pk):
@@ -95,5 +101,5 @@ def unblock(request, pk):
     if tokens.locked == True:
         tokens.locked = False
     tokens.save()
-    serializer = sparkTokenSerializer(instance= tokens,data=request.data)
+    serializer = sparkTokenSerializer(instance= tokens,many=False)
     return Response(serializer.data)
