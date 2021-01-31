@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializer import sparkTokenSerializer
@@ -6,7 +7,6 @@ from .models import sparkToken
 # Create your views here.
 
 @api_view(['GET'])
-
 def apiOverview(request):
     api_urls = {
         'Generate': '/generate/',
@@ -17,7 +17,8 @@ def apiOverview(request):
 
     }
     return Response(api_urls)
-
+    
+@api_view(['GET'])
 def tokenList(request):
     tokens = sparkToken.objects.all()
     serializer = sparkTokenSerializer(tokens,many=True)
