@@ -62,7 +62,7 @@ def timeout():
     key_expires = timezone.now() - timedelta(seconds=60)
     tokens = sparkToken.objects.filter(valid_till__lte=key_expires).update(locked=False)
     key_expires = timezone.now() - timedelta(minutes=5)
-    #dealt = sparkToken.objects.filter(valid_till__lte=key_expires).delete()
+    dealt = sparkToken.objects.filter(valid_till__lte=key_expires).delete()
 
     
 
