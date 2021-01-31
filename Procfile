@@ -1,1 +1,1 @@
-web: gunicorn spark18.wsgi
+web: gunicorn src.wsgi
