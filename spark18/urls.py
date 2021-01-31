@@ -16,9 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from sparkToken.views import apiOverview
+from sparkToken.views import tokenList
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',apiOverview, name='apiOverview'),
+    path('tokenList/',tokenList, name='tokenList'),
  #   path('sparkToken/', include('sparkToken.urls')),
 ]
