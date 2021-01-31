@@ -65,7 +65,7 @@ def extend(request, pk):
         tokens.locked = True
     else:
         tokens.locked = False    
-    tokens.save()
+    #tokens.save()
     serializer = sparkTokenSerializer(instance= tokens,data=request.data)
     return Response(serializer.data)
 
@@ -75,12 +75,11 @@ def generateNewToken():
 
 @api_view(['GET'])
 def assign(request):
-    tokens = sparkToken.objects.filter(locked=False,valid_till=datetime.now())
-    if tokens.count > 0:
-        token = tokens[0]
-        token.valid_till = timezone.now() + datetime.timedelta(seconds=60)
-        token.locked = True
-        token.save()
+    tokens = sparkToken.objects.filter(locked=False,valid_till=datetime.now()).first()
+    if tokens is not None:
+        tokens.valid_till = timezone.now() + datetime.timedelta(seconds=60)
+        tokens.locked = True
+        #token.save()
         serializer = sparkTokenSerializer(instance= tokens,data=request.data)
         return Response(serializer.data)
     else:
