@@ -84,7 +84,7 @@ def generateNewToken():
 def assign(request):
     tokens = sparkToken.objects.filter(locked=False,valid_till__lte=timezone.now()).first()
     if tokens is not None:
-        tokens.valid_till = timezone.now() + timedelta(seconds=60)
+        tokens.valid_till = timezone.now() + timedelta(minutes=60)
         tokens.locked = True
         tokens.save()
         serializer = sparkTokenSerializer(instance= tokens,many=False)
