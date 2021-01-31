@@ -80,7 +80,7 @@ def assign(request):
         tokens.valid_till = datetime.now() + timedelta(seconds=60)
         tokens.locked = True
         #token.save()
-        serializer = sparkTokenSerializer(instance= tokens,data=request.data)
+        serializer = sparkTokenSerializer(instance= tokens,many=False)
         return Response(serializer.data)
     else:
         return Response('No valid token available',status=404)
