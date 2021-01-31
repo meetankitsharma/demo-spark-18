@@ -75,7 +75,7 @@ def generateNewToken():
 
 @api_view(['GET'])
 def assign(request):
-    tokens = sparkToken.objects.filter(locked=False,valid_till=datetime.now()).first()
+    tokens = sparkToken.objects.filter(locked=False,valid_till__lte=datetime.now()).first()
     if tokens is not None:
         tokens.valid_till = timezone.now() + datetime.timedelta(seconds=60)
         tokens.locked = True
