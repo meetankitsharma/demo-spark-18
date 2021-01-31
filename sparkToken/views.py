@@ -70,7 +70,7 @@ def timeout():
 def extend(request, pk):
     tokens = sparkToken.objects.get(id=pk)
     if tokens.locked == True and tokens.valid_till > timezone.now():
-        tokens.valid_till = timezone.now() + timedelta(days=2)
+        tokens.valid_till = timezone.now() + timedelta(seconds=60)
         tokens.locked = True
     else:
         tokens.locked = False    
