@@ -79,7 +79,7 @@ def assign(request):
     if tokens is not None:
         tokens.valid_till = datetime.now() + timedelta(seconds=60)
         tokens.locked = True
-        #token.save()
+        token.save()
         serializer = sparkTokenSerializer(instance= tokens,many=False)
         return Response(serializer.data)
     else:
