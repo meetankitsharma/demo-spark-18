@@ -27,7 +27,7 @@ def tokenList(request):
 
 @api_view(['GET'])
 def generate(request):
-    token = sparkToken(token="1234",valid_till=timezone.now,locked=False)
+    token = sparkToken(token='asdujk12332js81',valid_till=timezone.now,locked=False)
     token.save()
     serializer = sparkTokenSerializer(token,many=False)
     return Response(serializer.data)
