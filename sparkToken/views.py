@@ -17,6 +17,8 @@ def apiOverview(request):
         'Delete': '/delete/',
         'Extend': '/extend/',
         'ALL Tokens': '/tokenList/',
+        'Assign': '/assign/',
+        'Unblock': '/unblock/',
 
     }
     return Response(api_urls)
@@ -30,7 +32,7 @@ def tokenList(request):
 @api_view(['GET'])
 def generate(request):
     key_expires = datetime.now() + timedelta(seconds=60)
-    token = sparkToken(token=generateNewToken,valid_till=key_expires,locked=False)
+    token = sparkToken(token=generateNewToken(),valid_till=key_expires,locked=False)
     token.save()
     serializer = sparkTokenSerializer(token,many=False)
     return Response(serializer.data)
@@ -55,10 +57,15 @@ def delete(request, pk):
     tokens.delete()
     return Response('Token deleted')
 
-@api_view(['POST'])
+@api_view(['GET'])
 def extend(request, pk):
     tokens = sparkToken.objects.get(id=pk)
-    tokens.valid_till = timezone.now() + datetime.timedelta(days=2)
+    if tokens.locked == True and tokens.valid_till < datetime.now():
+        tokens.valid_till = timezone.now() + datetime.timedelta(days=2)
+        tokens.locked = True
+    else:
+        tokens.locked = False    
+    tokens.save()
     serializer = sparkTokenSerializer(instance= tokens,data=request.data)
     return Response(serializer.data)
 
@@ -66,3 +73,28 @@ def generateNewToken():
     rand_token = uuid4()
     return rand_token
 
+@api_view(['GET'])
+def assign(request):
+    tokens = sparkToken.objects.filter(locked=False,valid_till=datetime.now())
+    if tokens.count > 0:
+        token = tokens[0]
+        token.valid_till = timezone.now() + datetime.timedelta(seconds=60)
+        token.locked = True
+        token.save()
+        serializer = sparkTokenSerializer(instance= tokens,data=request.data)
+        return Response(serializer.data)
+    else:
+        return Response('No valid token available',status=404)
+        
+    
+    
+    
+
+@api_view(['GET'])
+def unblock(request, pk):
+    tokens = sparkToken.objects.get(id=pk)
+    if tokens.locked == True:
+        tokens.locked = False
+    tokens.save()
+    serializer = sparkTokenSerializer(instance= tokens,data=request.data)
+    return Response(serializer.data)
