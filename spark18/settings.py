@@ -26,7 +26,7 @@ SECRET_KEY = ')k@t=q2((%+d_a_4s_b_0iq$i=5_tf+bvihdtgq98a^_$tofnx'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [spark18solution.herokuapp.com,'127.0.0.1']
+ALLOWED_HOSTS = ['spark18solution.herokuapp.com','127.0.0.1']
 
 
 # Application definition
