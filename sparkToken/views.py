@@ -19,6 +19,6 @@ def apiOverview(request):
     return Response(api_urls)
 
 def tokenList(request):
-    tokens = sparkToken.Object.all()
+    tokens = sparkToken.objects.all()
     serializer = sparkTokenSerializer(tokens,many=True)
     return Response()
