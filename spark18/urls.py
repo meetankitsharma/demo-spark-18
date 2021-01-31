@@ -17,10 +17,12 @@ from django.contrib import admin
 from django.urls import path
 from sparkToken.views import apiOverview
 from sparkToken.views import tokenList
+from sparkToken.views import tokenAdd
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',apiOverview, name='apiOverview'),
     path('tokenList/',tokenList, name='tokenList'),
+    path('add/',tokenAdd, name='tokenAdd'),
  #   path('sparkToken/', include('sparkToken.urls')),
 ]

@@ -17,9 +17,16 @@ def apiOverview(request):
 
     }
     return Response(api_urls)
-    
+
 @api_view(['GET'])
 def tokenList(request):
     tokens = sparkToken.objects.all()
     serializer = sparkTokenSerializer(tokens,many=True)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def tokenAdd(request):
+    serializer = sparkTokenSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
     return Response(serializer.data)
